@@ -49,7 +49,7 @@ Additional options to control the appearance are:
 
 ## Structured data
 
-The shortcode creates a `ld+json` script struct of the type `VideoObject`. The content for this is mostly taken from the `*.meta` file.
+The shortcode creates a `ld+json` script struct of the type `VideoObject`. The content for this is mostly taken from the `*.meta` file, which contains a json struct.
 
 An example content:
 ```
