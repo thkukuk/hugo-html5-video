@@ -15,7 +15,7 @@ Since different browsers support a different set of video formats, this shortcod
 ## Usage
 
 An example directory/file layout could be:
-{{< highlight plaintext >}}
+```
 content/
 └── post/
     ├── _index.md
@@ -28,12 +28,11 @@ content/
             ├── video2.mp4      <-- second video in mp4 format
             ├── video2.jpg      <-- thumbnail of second video in jpg format
             └── video2.meta     <-- sidecar file for second video
-{{< /highlight >}}
-
+```
 An example usage of this shortcode to include video2 could be:
-{{< highlight plaintext >}}
+```
 {{< video src="video2" autoplay="true" muted="true" >}}
-{{< /highlight >}}
+```
 
 The `src` argument is mandatory and should contain the name of the video
 without extension. In the above example, this could be `src="video1"` or
@@ -53,11 +52,11 @@ Additional options to control the appearance are:
 The shortcode creates a `ld+json` script struct of the type `VideoObject`. The content for this is mostly taken from the `*.meta` file.
 
 An example content:
-{{< highlight plaintext >}}
+```
 {
   "Title": "Title of the video",
   "Description": "Description of the video",
   "Duration": "PT89M54S",
   "DateUploaded": "2023-12-24"
 }
-{{< /highlight >}}
+```
