@@ -1,0 +1,11 @@
+name = "HTML5 Video embedding"
+license = "MIT"
+licenselink = "https://github.com/thkukuk/hugo-html5-video/blob/main/LICENCE.md"
+description = "Video player for Hugo using shortcodes with structured data."
+homepage = "https://github.com/thkukuk/hugo-html5-video"
+tags = ["gallery"]
+min_version = "0.108.0"
+
+[author]
+name = "Thorsten Kukuk"
+homepage = "https://www.thkukuk.de/"

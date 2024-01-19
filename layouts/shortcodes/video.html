@@ -1,0 +1,64 @@
+<!--
+hugo-html5-video shortcode
+
+A Hugo component shortcode to embed videos using the HTML5 video element
+and generating structured data for them.
+
+Documentation and licence at https://github.com/thkukuk/hugo-html5-video
+-->
+
+{{- $src_param := .Get "src" -}}
+<!-- Find all video files starting with src name -->
+{{- $videos := (.Page.Resources.ByType "video").Match (printf "%s*" $src_param) -}}
+<!-- Get metadata from sidecar file, if present. Else an empty dictionary is used. -->
+{{- $metaFileName := print $src_param ".meta" -}}
+{{- $metadata := .Page.Resources.GetMatch ($metaFileName) -}}
+{{- if $metadata -}}
+  {{- $metadata = $metadata.Content -}}
+  {{- $metadata = $metadata | unmarshal -}}
+{{- else -}}
+  {{- $metadata = dict -}}
+{{- end -}}
+
+<!-- Find thumbnail -->
+{{- $thumbnail := .Get "thumbnail" | default ($metadata.Thumbnail | default ((.Page.Resources.ByType "image").GetMatch (printf "**%s*" $src_param))) -}}
+{{- $video_dl := "" -}}
+{{- $filenotfound := true -}}
+
+  <video width="{{- .Get "width" | default "100%" -}}"
+       {{- with .Get "height" }} height="{{.}}"{{ end -}}
+       {{- if eq (.Get "autoplay") "true" }} autoplay{{ end -}}
+       {{- if eq (.Get "controls" | default "true") "true" }} controls{{ end -}}
+       {{- if eq (.Get "loop") "true" }} loop{{ end -}}
+       {{- if eq (.Get "muted") "true" }} muted{{ end -}}
+       {{- with .Get "preload" }} preload="{{ . }}"{{ end -}}
+       {{- if eq (.Get "playsinline") "true" }} playsinline{{ end -}}
+       {{- with $thumbnail }} poster="{{ .RelPermalink }}"{{ end -}}
+  >
+{{- with $videos -}}
+  {{- $filenotfound = false -}}
+  {{- range . -}}
+    <source src="{{ .RelPermalink }}" type="{{ .MediaType }}">
+    {{- $video_dl = . -}}
+  {{- end -}}
+{{- end -}}
+    <span>Your browser doesn't seem to support embedded videos, but you can
+      <a href="{{ $video_dl.RelPermalink }}">download</a> it.
+    </span>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": {{ $metadata.Title | default $src_param }},
+        "description": {{ $metadata.Description | default $src_param }},
+        "contentUrl": {{ $video_dl.Permalink }},
+        {{- with $thumbnail }}"thumbnailUrl": [ {{ $thumbnail.Permalink }} ],{{ end }}
+        {{- with $metadata.DateUploaded }}"uploadDate": {{ $metadata.DateUploaded }},{{ end }}
+        {{- with $metadata.Duration }}"duration": {{ $metadata.Duration }},{{ end }}
+      }
+    </script>
+  </video>
+<!-- No file found, stop. -->
+{{- if $filenotfound -}}
+  {{- errorf "No video file with filename %q found." $src_param -}}
+{{- end -}}
