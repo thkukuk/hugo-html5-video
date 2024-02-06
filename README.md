@@ -38,6 +38,7 @@ The `src` argument is mandatory and should contain the name of the video
 without extension. In the above example, this could be `src="video1"` or
 `src="video2"`.
 Additional options to control the appearance are:
+- `caption="Text"` will add the text as caption below the video.
 - `controls="false"` will disable webbroswer's controls, they are by default enabled.
 - `width="xx"`, default is `width="100%"`.
 - `height="yy"` defines the video height, by default this is not set.
@@ -56,6 +57,7 @@ An example content:
 {
   "Title": "Title of the video",
   "Description": "Description of the video",
+  "Caption": "Caption for the video",
   "Duration": "PT89M54S",
   "DateUploaded": "2023-12-24"
 }
