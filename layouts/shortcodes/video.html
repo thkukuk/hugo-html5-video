@@ -24,7 +24,9 @@ Documentation and licence at https://github.com/thkukuk/hugo-html5-video
 {{- $thumbnail := .Get "thumbnail" | default ($metadata.Thumbnail | default ((.Page.Resources.ByType "image").GetMatch (printf "**%s*" $src_param))) -}}
 {{- $video_dl := "" -}}
 {{- $filenotfound := true -}}
+{{- $caption := .Get "caption" | default $metadata.Caption -}}
 
+{{- with $caption }}<figure>{{ end }}
   <video width="{{- .Get "width" | default "100%" -}}"
        {{- with .Get "height" }} height="{{.}}"{{ end -}}
        {{- if eq (.Get "autoplay") "true" }} autoplay{{ end -}}
@@ -58,6 +60,7 @@ Documentation and licence at https://github.com/thkukuk/hugo-html5-video
       }
     </script>
   </video>
+  {{- with $caption }}<figcaption><p> {{ $caption }} </p></figcaption></figure>{{ end }}
 <!-- No file found, stop. -->
 {{- if $filenotfound -}}
   {{- errorf "No video file with filename %q found." $src_param -}}
