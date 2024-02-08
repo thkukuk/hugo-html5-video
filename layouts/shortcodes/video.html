@@ -53,10 +53,13 @@ Documentation and licence at https://github.com/thkukuk/hugo-html5-video
         "@type": "VideoObject",
         "name": {{ $metadata.Title | default $src_param }},
         "description": {{ $metadata.Description | default $src_param }},
-        "contentUrl": {{ $video_dl.Permalink }},
-        {{- with $thumbnail }}"thumbnailUrl": [ {{ $thumbnail.Permalink }} ],{{ end }}
-        {{- with $metadata.DateUploaded }}"uploadDate": {{ $metadata.DateUploaded }},{{ end }}
-        {{- with $metadata.Duration }}"duration": {{ $metadata.Duration }},{{ end }}
+        "contentUrl": {{ $video_dl.Permalink }}
+        {{- with $thumbnail }},
+        "thumbnailUrl": [ {{ $thumbnail.Permalink }} ]{{ end -}}
+        {{- with $metadata.DateUploaded }},
+        "uploadDate": {{ $metadata.DateUploaded }}{{ end -}}
+        {{- with $metadata.Duration }},
+        "duration": {{ $metadata.Duration }}{{ end }}
       }
     </script>
   </video>
